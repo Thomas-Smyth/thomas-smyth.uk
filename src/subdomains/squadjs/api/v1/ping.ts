@@ -1,4 +1,5 @@
 import Koa from 'koa';
+import sanitize from 'mongo-sanitize';
 
 import { SquadJSInstances } from '../../lib/database';
 
@@ -14,19 +15,19 @@ export const ping = async (ctx: Koa.BaseContext): Promise<void> => {
 
   // Save instance information.
   await SquadJSInstances.updateOne(
-    { name },
+    { name: sanitize(name) },
     {
       $set: {
-        host: ctx.request.body.server?.host,
-        queryPort: ctx.request.body.server?.queryPort,
-        playerCount: ctx.request.body.server?.playerCount,
-        version: ctx.request.body.squadjs?.version,
-        logReaderMode: ctx.request.body.squadjs?.logReaderMode,
-        plugins: ctx.request.body.squadjs?.plugins,
+        host: sanitize(ctx.request.body.server?.host),
+        queryPort: sanitize(ctx.request.body.server?.queryPort),
+        playerCount: sanitize(ctx.request.body.server?.playerCount),
+        version: sanitize(ctx.request.body.squadjs?.version),
+        logReaderMode: sanitize(ctx.request.body.squadjs?.logReaderMode),
+        plugins: sanitize(ctx.request.body.squadjs?.plugins),
         lastPinged: Date.now(),
       },
       $setOnInsert: {
-        name,
+        name: sanitize(name),
         firstPinged: Date.now(),
       },
     },
