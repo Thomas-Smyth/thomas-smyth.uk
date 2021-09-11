@@ -4,9 +4,10 @@ import mount from 'koa-mount';
 import Subdomain from 'koa-subdomain';
 import path from 'path';
 
-const DOMAINS = process.env.NODE_ENV === 'production'
-  ? ['thomas-smyth.uk', 'thomas-smyth.co.uk']
-  : ['localhost', 'test.localhost'];
+const DOMAINS =
+  process.env.NODE_ENV === 'production'
+    ? ['thomas-smyth.uk', 'thomas-smyth.co.uk']
+    : ['localhost', 'test.localhost'];
 
 export const mountSubdomains = async (app: Koa): Promise<void> => {
   const router = new Subdomain();

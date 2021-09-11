@@ -1,26 +1,29 @@
-import Koa from 'koa';
 import Router from '@koa/router';
+import Koa from 'koa';
+import BodyParser from 'koa-bodyparser';
 
-export const initSubdomain = (): Koa => {
-  const app = new Koa();
-  const router = new Router();
+import { router as v1APIRouter } from './api/v1';
 
-  router.get('/', (ctx) => {
-    ctx.redirect('https://github.com/Thomas-Smyth/SquadJS');
-  });
+const app = new Koa();
+const router = new Router();
 
-  router.get('/discord', (ctx) => {
-    ctx.redirect('https://discord.gg/DjrpPuw');
-  });
+// Setup middleware.
+app.use(BodyParser());
 
-  // Define a mock route temporarily.
-  router.post('/api/v1/ping', (ctx) => {
-    ctx.body = { message: 'Pong.' };
-  });
+// Setup routes.
+router.get('/', (ctx) => {
+  ctx.redirect('https://github.com/Thomas-Smyth/SquadJS');
+});
 
-  // Apply the routes.
-  app.use(router.routes());
-  app.use(router.allowedMethods());
+router.get('/discord', (ctx) => {
+  ctx.redirect('https://discord.gg/DjrpPuw');
+});
 
-  return app;
-};
+router.use('/api/v1', v1APIRouter.routes());
+router.use('/api/v1', v1APIRouter.allowedMethods());
+
+// Apply the routes.
+app.use(router.routes());
+app.use(router.allowedMethods());
+
+export const initSubdomain = (): Koa => app;
