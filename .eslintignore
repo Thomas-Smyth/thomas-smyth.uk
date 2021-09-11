@@ -1,0 +1,5 @@
+# Project Files
+src/subdomains/root/content/
+
+# Dependencies
+node_modules/
