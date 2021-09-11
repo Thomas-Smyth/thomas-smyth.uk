@@ -4,6 +4,10 @@ import mount from 'koa-mount';
 import Subdomain from 'koa-subdomain';
 import path from 'path';
 
+const DOMAINS = process.env.NODE_ENV === 'production'
+  ? ['thomas-smyth.uk', 'thomas-smyth.co.uk']
+  : ['localhost', 'test.localhost'];
+
 export const mountSubdomains = async (app: Koa): Promise<void> => {
   const router = new Subdomain();
 
@@ -19,9 +23,14 @@ export const mountSubdomains = async (app: Koa): Promise<void> => {
     const app = await initSubdomain();
 
     // Mount the app.
-    router.use(dirent.name === 'root' ? '' : dirent.name, mount('/', app));
+    mountApp(router, dirent.name === 'root' ? '' : dirent.name, app);
   }
 
   // Apply the routes.
   app.use(router.routes());
+};
+
+export const mountApp = (router: Subdomain, subdomain: string, app: Koa): void => {
+  for (const DOMAIN of DOMAINS)
+    router.use(`${subdomain.length > 0 ? `${subdomain}.` : ''}${DOMAIN}`, mount('/', app));
 };
