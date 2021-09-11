@@ -22,6 +22,7 @@ export const ping = async (ctx: Koa.BaseContext): Promise<void> => {
         playerCount: ctx.request.body.server?.playerCount,
         version: ctx.request.body.squadjs?.version,
         logReaderMode: ctx.request.body.squadjs?.logReaderMode,
+        plugins: ctx.request.body.squadjs?.plugins,
         lastPinged: Date.now(),
       },
       $setOnInsert: {
