@@ -23,7 +23,12 @@ export const mountSubdomains = async (app: Koa): Promise<void> => {
     const app = await initSubdomain();
 
     // Mount the app.
-    mountApp(router, dirent.name === 'root' ? '' : dirent.name, app);
+    if (dirent.name === 'root') {
+      mountApp(router, '', app);
+      mountApp(router, 'www', app);
+    } else {
+      mountApp(router, dirent.name, app);
+    }
   }
 
   // Apply the routes.
