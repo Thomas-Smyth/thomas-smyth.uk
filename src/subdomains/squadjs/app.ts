@@ -3,6 +3,7 @@ import Koa from 'koa';
 import BodyParser from 'koa-bodyparser';
 
 import { router as v1APIRouter } from './api/v1';
+import { client } from './lib/database';
 
 const app = new Koa();
 const router = new Router();
@@ -26,4 +27,7 @@ router.use('/api/v1', v1APIRouter.allowedMethods());
 app.use(router.routes());
 app.use(router.allowedMethods());
 
-export const initSubdomain = (): Koa => app;
+export const initSubdomain = async (): Promise<Koa> => {
+  await client.connect();
+  return app;
+};

@@ -1,6 +1,5 @@
 import { initApp } from './src/app';
-
-const PORT = process.env.PORT || 3000;
+import { PORT } from './src/config';
 
 (async (): Promise<void> => {
   // Initiate the app and subdomain apps.
