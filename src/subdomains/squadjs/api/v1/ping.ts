@@ -24,11 +24,11 @@ export const ping = async (ctx: Koa.BaseContext): Promise<void> => {
         version: sanitize(ctx.request.body.squadjs?.version),
         logReaderMode: sanitize(ctx.request.body.squadjs?.logReaderMode),
         plugins: sanitize(ctx.request.body.squadjs?.plugins),
-        lastPinged: Date.now(),
+        lastPinged: new Date(),
       },
       $setOnInsert: {
         name: sanitize(name),
-        firstPinged: Date.now(),
+        firstPinged: new Date(),
       },
     },
     {
