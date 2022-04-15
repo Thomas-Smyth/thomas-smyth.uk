@@ -13,7 +13,7 @@ app.use(BodyParser());
 
 // Setup routes.
 router.get('/', (ctx) => {
-  ctx.redirect('https://github.com/Thomas-Smyth/SquadJS');
+  ctx.redirect('https://github.com/Team-Silver-Sphere/SquadJS');
 });
 
 router.get('/discord', (ctx) => {
