@@ -13,6 +13,8 @@ export const ping = async (ctx: Koa.BaseContext): Promise<void> => {
     return;
   }
 
+  console.log(`${sanitize(ctx.request.body.server?.host)}: ${sanitize(ctx.request.body.server?.playerCount)} players`);
+
   // Save instance information.
   await SquadJSInstances.updateOne(
     { name: sanitize(name) },
